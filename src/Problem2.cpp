@@ -70,7 +70,60 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
-int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+void length(struct node *,int *);
+void checking_the_two_trees(struct node_dll  *, struct node *, int *);
+int is_identical(struct node_dll *head, struct node *root)
+{
+	if (head == NULL || root == NULL)
+	{
+		return -1;
+	}
+	struct node_dll *temp_dll,*temp1;
+	struct node *temp_bst,*temp2;
+	temp1 = head;
+	temp2 = root;
+	temp_dll = head;
+	temp_bst = root;
+	int output_variable = 1,i=0,j;
+	while (temp1)
+	{
+		 i++;
+		temp1 = temp1->next;
+	}
+	length(temp2, &j);
+	if (i == j)
+	{
+		checking_the_two_trees(temp_dll, temp_bst, &output_variable);
+		return output_variable;
+	}
+	else
+	{
+		return 0;
+	}
+}
+void checking_the_two_trees(struct node_dll *temp_dll, struct node *temp_bst, int *output_variable)
+{
+	if (temp_bst != NULL)
+	{
+		checking_the_two_trees(temp_dll, temp_bst->left, output_variable);
+		if (temp_dll->data != temp_bst->data)
+		{
+			*output_variable = 0;
+		}
+		else
+		{
+			if (temp_dll->next!=NULL)
+			temp_dll = temp_dll->next;
+		}
+		checking_the_two_trees(temp_dll, temp_bst->right, output_variable);
+	}
+}
+void length(struct node *temp2, int *j)
+{
+	if (temp2 != NULL)
+	{
+		length(temp2->left, j);
+			j++;
+		length(temp2->right, j);
+	}
 }

@@ -49,8 +49,57 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
-
-int get_missing_value(struct node *root,int n){
-    return -1;
+void arthematic_sum_of_nodes(struct node *,int *,int );
+int get_missing_value(struct node *root,int n)
+{
+	int sum_of_nodes = 0, total_sum_of_numbers = 0,missing_value;
+	struct node *temp;
+	temp = root;
+	if (n < 0)
+	{
+		total_sum_of_numbers = ((-n)*(-n + 1)) / 2;
+	}
+	else
+	{
+		total_sum_of_numbers = (n*(n + 1)) / 2;
+	}
+	if (root == NULL||n==0)
+	{
+		return -1;
+	}
+	else
+	{
+     arthematic_sum_of_nodes(temp,&sum_of_nodes,n);
+	}
+	if (n > 0)
+	{
+		missing_value = total_sum_of_numbers - sum_of_nodes;
+	}
+	else
+	{
+		missing_value = total_sum_of_numbers + sum_of_nodes;
+	}
+	return missing_value;
+}
+void arthematic_sum_of_nodes(struct node *temp, int *sum,int n)
+{
+	if (temp != NULL)
+	{
+		arthematic_sum_of_nodes(temp->left,sum,n);
+		if (n > 0)
+		{
+			if (temp->data >= 0 && temp->data <= n)
+			{
+				*sum = *sum + temp->data;
+			}
+		}
+		else
+		{
+			if (temp->data <= 0 && temp->data >= n)
+			{
+				*sum = *sum + temp->data;
+			}
+		}
+		arthematic_sum_of_nodes(temp->right, sum, n);
+	}
 }
